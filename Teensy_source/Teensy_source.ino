@@ -12,7 +12,7 @@
 char randomnextchar(int a);
 int chartopin(char a);
 
-//RF24 radio(ce_pin, cs_pin);
+RF24 radio(ce_pin, cs_pin);
 byte w_pipe[] = {0x78, 0x78, 0x78, 0x78, 0x78};
 byte r_pipe[] = {0xb3, 0xb4, 0xb5, 0xb6, 0xf1};
 
@@ -30,54 +30,58 @@ void setup() {
 
 void loop() {
   // put your main code here, to run repeatedly: 
-//    radio.startListening( );
-//
-//    char data[] = "";
-//  
-//    char write[] = "abcdef";
-//    radio.stopListening();
-//
-//    
-//    if(radio.write(&write, sizeof(write)))
-//      Serial.println("success");
-//
-//
-//    if(radio.available())
-//    {
-//      Serial.println("hello world");
-//      radio.read(&data, sizeof(data));
-//    }
+    radio.startListening( );
+
+    char data[] = "";
+  
+    char write[] = "abcdef";
+    radio.stopListening();
+
+    
+
+    for(int i = 0; i < sizeof(write); i++)
+    {
+      
+        if(!radio.write(&(write[i]), 1))
+          Serial.println("Failed on write");
+    }
+
+
+    if(radio.available())
+    {
+      radio.read(&data, sizeof(data));
+    }
 
   //sends data and makes LEDs flash
-  char data[] = "";
-  int randomchar = random(1,3); //generates a random number than will be mapped to R G Y
-  char append = randomnextchar(randomchar); //converts int to char
-  strcat(data, append); //appends the next random char
-  Serial.println(data);//test to see if this works
-  if(radio.write(&data, sizeof(data))){
-    Serial.println("success");  //sends the char stream
-  }
-  for (int i = 0; i < sizeof(data); i ++ )
-  {
-    digitalWrite(chartopin(data[i]), HIGH); //makes corresponding LEDs flash
-  }
-
-
-  //listen for Arduino input
-  //Arduino should send Y if player succeeded or N if player did not
-  char reply[] = "";
-  radio.startListening();
-  if (radio.available()){
-     radio.read(&reply, sizeof(reply):
-  }
-  if (reply == "Y") {//player succeeded
-    digitalWrite(green, HIGH);//flash green    
-    //do something
-  }
-  else 
-    digitalWrite(red, HIGH);//flash red
-    //stop game??
-  radio.stopListening();
+//  char data[] = "";
+//  int randomchar = random(1,3); //generates a random number than will be mapped to R G Y
+//  char append = randomnextchar(randomchar); //converts int to char
+//  strcat(data, append); //appends the next random char
+//  Serial.println(data);//test to see if this works
+//  if(radio.write(&data, sizeof(data))){
+//    Serial.println("success");  //sends the char stream
+//  }
+//  for (int i = 0; i < sizeof(data); i ++ )
+//  {
+//    digitalWrite(chartopin(data[i]), HIGH); //makes corresponding LEDs flash
+//  }
+//
+//
+//  //listen for Arduino input
+//  //Arduino should send Y if player succeeded or N if player did not
+//  char reply[] = "";
+//  radio.startListening();
+//  if (radio.available()){
+//     radio.read(&reply, sizeof(reply):
+//  }
+//  if (reply == "Y") {//player succeeded
+//    digitalWrite(green, HIGH);//flash green    
+//    //do something
+//  }
+//  else 
+//    digitalWrite(red, HIGH);//flash red
+//    //stop game??
+//  radio.stopListening();
 }
 
 char randomnextchar(int a){
