@@ -1,5 +1,5 @@
 //TEENSY CODE
-//hi 
+
 #include <RF24.h>
 #define ce_pin 9
 #define cs_pin 10
@@ -30,27 +30,26 @@ void setup() {
 
 void loop() {
   // put your main code here, to run repeatedly: 
-    radio.startListening( );
+
+//    radio.startListening( );
 
     char data[] = "";
   
     char write[] = "abcdef";
-    radio.stopListening();
+//    radio.stopListening();
+//
+//    
+//    if(radio.write(&write, sizeof(write)))
+//      Serial.println("success");
 
-    
-
-    for(int i = 0; i < sizeof(write); i++)
-    {
-      
-        if(!radio.write(&(write[i]), 1))
-          Serial.println("Failed on write");
-    }
-
-
+    radio.startListening( );
     if(radio.available())
     {
+
       radio.read(&data, sizeof(data));
+      Serial.println(data);
     }
+  
 
   //sends data and makes LEDs flash
 //  char data[] = "";
